@@ -71,6 +71,35 @@ async function connectViaWebSocket() {
 npm install playwright-core
 ```
 
+### Configure Playwright for CDP Connection
+
+Add this project configuration to your `playwright.config.ts`:
+
+```typescript
+// In playwright.config.ts
+projects: [
+  {
+    name: 'chrome-cdp',
+    use: {
+      ...devices['Desktop Chrome'],
+      connectOptions: {
+        wsEndpoint: 'ws://localhost:9222/devtools/browser'
+      }
+    },
+  },
+  // ...other projects
+]
+```
+
+### Run Tests with CDP
+```bash
+# Run tests on the CDP-connected Chrome
+npx playwright test --project=chrome-cdp
+
+# Run specific test file
+npx playwright test tests/example.spec.ts --project=chrome-cdp
+```
+
 ### Connect to Existing Chrome Instance
 ```javascript
 const { chromium } = require('playwright-core');
