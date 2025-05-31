@@ -19,20 +19,31 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
 
   // Check if user is already logged in
   if (await cdpPage.getByRole('link', { name: '- ดาวน์โหลดรายชื่อนักเรียน (สร้างวันละครั้ง เวลา 2:00 น.)' }).isVisible()) {
-    console.log('User is already logged in');
+    console.log('\n🟢 User is already logged in');
     
     // Student existence check logic
-    const data: { cid: string; status: boolean }[] = [];
+    const data: { cid: string; status: boolean; processingTime?: number }[] = [];
     const schoolCode = '36022006';
     const educationYear = '2568'; // Updated for current year
     const levelDtlCode = '14';
 
-    console.log(`Starting check for ${cids.length} students...`);
+    console.log('\n📊 Student Existence Check Configuration:');
+    console.log(`   School Code: ${schoolCode}`);
+    console.log(`   Education Year: ${educationYear}`);
+    console.log(`   Level Detail Code: ${levelDtlCode}`);
+    console.log(`\n🚀 Starting check for ${cids.length} students...\n`);
+
+    const startTime = Date.now();
 
     for (let i = 0; i < cids.length; i++) {
       const cid = cids[i];
+      const itemStartTime = Date.now();
+      
       try {
-        console.log(`Processing ${i + 1}/${cids.length}: ${cid}`);
+        const progress = `[${(i + 1).toString().padStart(cids.length.toString().length, ' ')}/${cids.length}]`;
+        const percentage = `(${((i + 1) / cids.length * 100).toFixed(1)}%)`;
+        
+        console.log(`${progress} ${percentage} Processing: ${cid}`);
         
         const searchUrl = `https://portal.bopp-obec.info/obec68/studentprogram/add?schoolCode=${schoolCode}&studentNo=&cifNo=${cid}&cifType=&educationYear=${educationYear}&levelDtlCode=${levelDtlCode}&classroom=&firstNameTh=&lastNameTh=&action=search`;
         
@@ -43,12 +54,14 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
         // Check if student exists
         const found = await cdpPage.isVisible('input[type="checkbox"]', { timeout: 5000 });
         
+        const processingTime = Date.now() - itemStartTime;
+        
         if (!found) {
-          data.push({ cid, status: false });
-          console.log(`${cid} - Not found!`);
+          data.push({ cid, status: false, processingTime });
+          console.log(`   ❌ ${cid} - Not found! (${processingTime}ms)`);
         } else {
-          data.push({ cid, status: true });
-          console.log(`${cid} - Found!`);
+          data.push({ cid, status: true, processingTime });
+          console.log(`   ✅ ${cid} - Found! (${processingTime}ms)`);
         }
 
         // Add delay between requests to avoid overwhelming the server
@@ -57,22 +70,27 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
         }
 
       } catch (error) {
-        console.error(`Error checking CID ${cid}:`, error.message);
-        data.push({ cid, status: false });
+        const processingTime = Date.now() - itemStartTime;
+        console.error(`   ⚠️  Error checking CID ${cid}: ${error.message} (${processingTime}ms)`);
+        data.push({ cid, status: false, processingTime });
         
         // Try to recover by going back to main page
         try {
+          console.log('   🔄 Attempting to recover...');
           await cdpPage.goto('https://portal.bopp-obec.info/obec68/', { timeout: 10000 });
           await cdpPage.waitForTimeout(2000);
+          console.log('   ✅ Recovery successful');
         } catch (recoveryError) {
-          console.error('Failed to recover, continuing with next CID');
+          console.error('   ❌ Failed to recover, continuing with next CID');
         }
       }
     }
 
+    const totalTime = Date.now() - startTime;
+
     // Convert data to CSV string
-    const csvHeader = 'CID,Status\n';
-    const csvRows = data.map(row => `${row.cid},${row.status}`).join('\n');
+    const csvHeader = 'CID,Status,ProcessingTime(ms)\n';
+    const csvRows = data.map(row => `${row.cid},${row.status},${row.processingTime || 0}`).join('\n');
     const csvContent = csvHeader + csvRows;
 
     // Ensure output directory exists
@@ -87,22 +105,30 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
     
     try {
       fs.writeFileSync(filename, csvContent, 'utf-8');
-      console.log(`Results saved to ${filename}`);
+      console.log(`\n💾 Results saved to: ${filename}`);
       
       // Log summary statistics
       const foundCount = data.filter(item => item.status).length;
       const notFoundCount = data.length - foundCount;
-      console.log(`\n=== Summary ===`);
-      console.log(`Total students checked: ${data.length}`);
-      console.log(`Found in system: ${foundCount}`);
-      console.log(`Not found: ${notFoundCount}`);
-      console.log(`Success rate: ${((foundCount / data.length) * 100).toFixed(2)}%`);
+      const avgProcessingTime = data.reduce((sum, item) => sum + (item.processingTime || 0), 0) / data.length;
+      
+      console.log('\n' + '='.repeat(50));
+      console.log('📊 EXECUTION SUMMARY');
+      console.log('='.repeat(50));
+      console.log(`⏱️  Total execution time: ${(totalTime / 1000).toFixed(2)}s`);
+      console.log(`📈 Average processing time per student: ${avgProcessingTime.toFixed(0)}ms`);
+      console.log(`👥 Total students checked: ${data.length}`);
+      console.log(`✅ Found in system: ${foundCount}`);
+      console.log(`❌ Not found: ${notFoundCount}`);
+      console.log(`📊 Success rate: ${((foundCount / data.length) * 100).toFixed(2)}%`);
+      console.log(`⚡ Processing speed: ${(data.length / (totalTime / 1000)).toFixed(2)} students/second`);
+      console.log('='.repeat(50));
     } catch (error) {
-      console.error('Error saving CSV file:', error);
+      console.error('💥 Error saving CSV file:', error);
     }
   } else {
     // end session if user is not logged in
-    console.log('User is not logged in, ending session');
+    console.log('🔒 User is not logged in, ending session');
   }
 });
 
