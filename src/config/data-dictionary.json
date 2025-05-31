@@ -1,0 +1,345 @@
+{
+  "fields": {
+    "schoolCode": {
+      "thaiName": "รหัสโรงเรียน",
+      "englishName": "School Code",
+      "type": "string",
+      "required": true,
+      "description": "Unique identifier for the school",
+      "example": "36022006",
+      "columnIndex": 0
+    },
+    "schoolName": {
+      "thaiName": "ชื่อโรงเรียน",
+      "englishName": "School Name",
+      "type": "string",
+      "required": true,
+      "description": "Name of the school",
+      "example": "ภูเขียว",
+      "columnIndex": 1
+    },
+    "studentId": {
+      "thaiName": "เลขประจำตัวนักเรียน",
+      "englishName": "Student ID",
+      "type": "string",
+      "required": true,
+      "description": "National ID number of the student (13 digits)",
+      "example": "1368400145149",
+      "columnIndex": 2,
+      "validation": {
+        "pattern": "^[0-9]{13}$",
+        "message": "Student ID must be 13 digits"
+      }
+    },
+    "grade": {
+      "thaiName": "ชั้น",
+      "englishName": "Grade",
+      "type": "string",
+      "required": true,
+      "description": "Student grade level",
+      "example": "ม.2",
+      "columnIndex": 3
+    },
+    "room": {
+      "thaiName": "ห้อง",
+      "englishName": "Room",
+      "type": "string",
+      "required": true,
+      "description": "Classroom number",
+      "example": "5",
+      "columnIndex": 4
+    },
+    "gender": {
+      "thaiName": "เพศ",
+      "englishName": "Gender",
+      "type": "string",
+      "required": true,
+      "description": "Student gender",
+      "example": "ญ",
+      "columnIndex": 6,
+      "allowedValues": ["ช", "ญ"]
+    },
+    "titlePrefix": {
+      "thaiName": "คำนำหน้าชื่อ",
+      "englishName": "Title Prefix",
+      "type": "string",
+      "required": true,
+      "description": "Title prefix for the student",
+      "example": "เด็กหญิง",
+      "columnIndex": 7
+    },
+    "firstName": {
+      "thaiName": "ชื่อ",
+      "englishName": "First Name",
+      "type": "string",
+      "required": true,
+      "description": "Student's first name",
+      "example": "เกวลิน",
+      "columnIndex": 8
+    },
+    "lastName": {
+      "thaiName": "นามสกุล",
+      "englishName": "Last Name",
+      "type": "string",
+      "required": true,
+      "description": "Student's last name",
+      "example": "เฝ้าทรัพย์",
+      "columnIndex": 9
+    },
+    "birthDate": {
+      "thaiName": "วันเกิด",
+      "englishName": "Birth Date",
+      "type": "date",
+      "required": true,
+      "description": "Student's birth date in DD/MM/YYYY format",
+      "example": "20/03/2555",
+      "columnIndex": 10,
+      "validation": {
+        "pattern": "^[0-9]{2}/[0-9]{2}/[0-9]{4}$",
+        "message": "Birth date must be in DD/MM/YYYY format"
+      }
+    },
+    "age": {
+      "thaiName": "อายุ(ปี)",
+      "englishName": "Age (Years)",
+      "type": "number",
+      "required": false,
+      "description": "Student's age in years",
+      "example": "13",
+      "columnIndex": 11
+    },
+    "weight": {
+      "thaiName": "น้ำหนัก",
+      "englishName": "Weight",
+      "type": "number",
+      "required": false,
+      "description": "Student's weight in kilograms",
+      "example": "0",
+      "columnIndex": 12
+    },
+    "height": {
+      "thaiName": "ส่วนสูง",
+      "englishName": "Height",
+      "type": "number",
+      "required": false,
+      "description": "Student's height in centimeters",
+      "example": "0",
+      "columnIndex": 13
+    },
+    "bloodType": {
+      "thaiName": "กลุ่มเลือด",
+      "englishName": "Blood Type",
+      "type": "string",
+      "required": false,
+      "description": "Student's blood type",
+      "example": "B",
+      "columnIndex": 14,
+      "allowedValues": ["A", "B", "AB", "O", "-"]
+    },
+    "religion": {
+      "thaiName": "ศาสนา",
+      "englishName": "Religion",
+      "type": "string",
+      "required": false,
+      "description": "Student's religion",
+      "example": "พุทธ",
+      "columnIndex": 15
+    },
+    "ethnicity": {
+      "thaiName": "เชื้อชาติ",
+      "englishName": "Ethnicity",
+      "type": "string",
+      "required": false,
+      "description": "Student's ethnicity",
+      "example": "ไทย",
+      "columnIndex": 16
+    },
+    "nationality": {
+      "thaiName": "สัญชาติ",
+      "englishName": "Nationality",
+      "type": "string",
+      "required": false,
+      "description": "Student's nationality",
+      "example": "ไทย",
+      "columnIndex": 17
+    },
+    "houseNumber": {
+      "thaiName": "บ้านเลขที่",
+      "englishName": "House Number",
+      "type": "string",
+      "required": false,
+      "description": "House number in address",
+      "example": "307",
+      "columnIndex": 18
+    },
+    "village": {
+      "thaiName": "หมู่",
+      "englishName": "Village",
+      "type": "string",
+      "required": false,
+      "description": "Village number",
+      "example": "1",
+      "columnIndex": 19
+    },
+    "street": {
+      "thaiName": "ถนน/ซอย",
+      "englishName": "Street/Soi",
+      "type": "string",
+      "required": false,
+      "description": "Street or soi name",
+      "example": "-",
+      "columnIndex": 20
+    },
+    "subdistrict": {
+      "thaiName": "ตำบล",
+      "englishName": "Subdistrict",
+      "type": "string",
+      "required": false,
+      "description": "Subdistrict (Tambon)",
+      "example": "กวางโจน",
+      "columnIndex": 21
+    },
+    "district": {
+      "thaiName": "อำเภอ",
+      "englishName": "District",
+      "type": "string",
+      "required": false,
+      "description": "District (Amphoe)",
+      "example": "ภูเขียว",
+      "columnIndex": 22
+    },
+    "province": {
+      "thaiName": "จังหวัด",
+      "englishName": "Province",
+      "type": "string",
+      "required": false,
+      "description": "Province (Changwat)",
+      "example": "ชัยภูมิ",
+      "columnIndex": 23
+    },
+    "guardianFirstName": {
+      "thaiName": "ชื่อผู้ปกครอง",
+      "englishName": "Guardian First Name",
+      "type": "string",
+      "required": false,
+      "description": "Guardian's first name",
+      "example": "มนฤดี",
+      "columnIndex": 24
+    },
+    "guardianLastName": {
+      "thaiName": "นามสกุลผู้ปกครอง",
+      "englishName": "Guardian Last Name",
+      "type": "string",
+      "required": false,
+      "description": "Guardian's last name",
+      "example": "เฝ้าทรัพย์",
+      "columnIndex": 25
+    },
+    "guardianOccupation": {
+      "thaiName": "อาชีพของผู้ปกครอง",
+      "englishName": "Guardian Occupation",
+      "type": "string",
+      "required": false,
+      "description": "Guardian's occupation",
+      "example": "รับจ้าง",
+      "columnIndex": 26
+    },
+    "guardianRelation": {
+      "thaiName": "ความเกี่ยวข้องของผู้ปกครองกับนักเรียน",
+      "englishName": "Guardian Relation",
+      "type": "string",
+      "required": false,
+      "description": "Relationship between guardian and student",
+      "example": "มารดา",
+      "columnIndex": 27
+    },
+    "fatherFirstName": {
+      "thaiName": "ชื่อบิดา",
+      "englishName": "Father First Name",
+      "type": "string",
+      "required": false,
+      "description": "Father's first name",
+      "example": "ศิริชัย",
+      "columnIndex": 28
+    },
+    "fatherLastName": {
+      "thaiName": "นามสกุลบิดา",
+      "englishName": "Father Last Name",
+      "type": "string",
+      "required": false,
+      "description": "Father's last name",
+      "example": "เฝ้าทรัพย์",
+      "columnIndex": 29
+    },
+    "fatherOccupation": {
+      "thaiName": "อาชีพของบิดา",
+      "englishName": "Father Occupation",
+      "type": "string",
+      "required": false,
+      "description": "Father's occupation",
+      "example": "รับจ้าง",
+      "columnIndex": 30
+    },
+    "motherFirstName": {
+      "thaiName": "ชื่อมารดา",
+      "englishName": "Mother First Name",
+      "type": "string",
+      "required": false,
+      "description": "Mother's first name",
+      "example": "มนฤดี",
+      "columnIndex": 31
+    },
+    "motherLastName": {
+      "thaiName": "นามสกุลมารดา",
+      "englishName": "Mother Last Name",
+      "type": "string",
+      "required": false,
+      "description": "Mother's last name",
+      "example": "เฝ้าทรัพย์",
+      "columnIndex": 32
+    },
+    "motherOccupation": {
+      "thaiName": "อาชีพของมารดา",
+      "englishName": "Mother Occupation",
+      "type": "string",
+      "required": false,
+      "description": "Mother's occupation",
+      "example": "รับจ้าง",
+      "columnIndex": 33
+    },
+    "disadvantaged": {
+      "thaiName": "ความด้อยโอกาส",
+      "englishName": "Disadvantaged",
+      "type": "string",
+      "required": false,
+      "description": "Disadvantaged status",
+      "example": "เด็กยากจน",
+      "columnIndex": 34
+    },
+    "unresolved": {
+      "thaiName": "ยังไม่สามารถจำหน่ายได้ (3.1.8)",
+      "englishName": "Unresolved (3.1.8)",
+      "type": "string",
+      "required": false,
+      "description": "Unresolved status according to regulation 3.1.8",
+      "example": "-",
+      "columnIndex": 35
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2024-01-01",
+    "description": "Data dictionary for student information CSV files",
+    "totalColumns": 36,
+    "encoding": "UTF-8",
+    "delimiter": ",",
+    "dateFormat": "DD/MM/YYYY (Thai Buddhist Era)",
+    "notes": [
+      "Thai Buddhist Era years are used (add 543 to convert to Gregorian)",
+      "Empty values are represented by '-' or empty strings",
+      "Student ID is the national identification number",
+      "Column indices are 0-based",
+      "Some fields may be optional and contain '-' for missing data"
+    ]
+  }
+}

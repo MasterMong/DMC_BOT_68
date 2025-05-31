@@ -2,7 +2,13 @@
   "name": "dmc_bot",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc",
+    "test": "npx playwright test",
+    "test:check-students": "npx playwright test dmc-check-stu-exist.spec.ts",
+    "test:login": "npx playwright test dmc-login.spec.ts",
+    "test:school-info": "npx playwright test dmc-school-info.spec.ts",
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -10,6 +16,7 @@
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.27",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "typescript": "^5.0.0"
   }
 }

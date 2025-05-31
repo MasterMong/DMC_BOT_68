@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures/cdp-fixtures';
 import 'dotenv/config';
-import { cids } from '../data/is_exitst_cid';
+import { CsvDataHandler } from '../src/utils/csv-data-handler';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -22,6 +22,25 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
   if (await cdpPage.getByRole('link', { name: '- ดาวน์โหลดรายชื่อนักเรียน (สร้างวันละครั้ง เวลา 2:00 น.)' }).isVisible()) {
     console.log('\n🟢 User is already logged in');
     
+    // Initialize CSV data handler
+    const csvHandler = CsvDataHandler.getInstance();
+    const csvFilePath = path.join(__dirname, '../data/stu.csv');
+    
+    // Load student data from CSV
+    let cids: string[] = [];
+    try {
+      cids = csvHandler.getStudentIds(csvFilePath);
+      console.log(`📁 Loaded ${cids.length} student IDs from CSV file`);
+    } catch (error) {
+      console.error('❌ Error loading CSV file:', error.message);
+      return;
+    }
+    
+    if (cids.length === 0) {
+      console.log('⚠️  No student IDs found in CSV file');
+      return;
+    }
+
     // Student existence check logic
     const data: { cid: string; status: boolean; processingTime?: number }[] = [];
     const schoolCode = process.env.SCHOOL_CODE || '36022006';
