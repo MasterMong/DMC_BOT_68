@@ -1,0 +1,7 @@
+create a new test based on the template for ... in the DMC system
+1. Create a new test file for classroom assignment functionality
+2. Use the existing template structure with login check
+3. Load student data from CSV using the existing CsvDataHandler
+4. Implement the ....
+5. Add proper error handling and logging
+6. Add new command to package.json

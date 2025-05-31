@@ -8,6 +8,7 @@
     "test:check-students": "npx playwright test dmc-check-stu-exist.spec.ts",
     "test:login": "npx playwright test dmc-login.spec.ts",
     "test:school-info": "npx playwright test dmc-school-info.spec.ts",
+    "test:change-classroom": "npx playwright test dmc-change-classroom.spec.ts"
   },
   "keywords": [],
   "author": "",
