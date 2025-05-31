@@ -22,7 +22,7 @@ export const test = baseTest.extend<CDPFixtures>({
   cdpPage: async ({ cdpContext }, use) => {
     const page = await cdpContext.newPage();
     await use(page);
-    await page.close();
+    // await page.close();
   },
 });
 
