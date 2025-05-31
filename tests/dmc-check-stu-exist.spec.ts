@@ -24,13 +24,14 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
     
     // Initialize CSV data handler
     const csvHandler = CsvDataHandler.getInstance();
-    const csvFilePath = path.join(__dirname, '../data/stu.csv');
+    const csvFileName = process.env.CSV_FILE_NAME || 'stu.csv';
+    const csvFilePath = path.join(__dirname, '../data/', csvFileName);
     
     // Load student data from CSV
     let cids: string[] = [];
     try {
       cids = csvHandler.getStudentIds(csvFilePath);
-      console.log(`📁 Loaded ${cids.length} student IDs from CSV file`);
+      console.log(`📁 Loaded ${cids.length} student IDs from CSV file: ${csvFileName}`);
     } catch (error) {
       console.error('❌ Error loading CSV file:', error.message);
       return;
