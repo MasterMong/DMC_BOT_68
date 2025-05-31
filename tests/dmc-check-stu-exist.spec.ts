@@ -1,5 +1,5 @@
 import { test, expect } from './fixtures/cdp-fixtures';
-// import 'dotenv/config';
+import 'dotenv/config';
 import { cids } from '../data/is_exitst_cid';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -13,7 +13,8 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
   test.setTimeout(300000); // 5 minutes
 
   // Navigate to the DMC portal
-  await cdpPage.goto('https://portal.bopp-obec.info/obec68/');
+  const dmcPortalUrl = process.env.DMC_PORTAL_URL || 'https://portal.bopp-obec.info/obec68';
+  await cdpPage.goto(`${dmcPortalUrl}/`);
   await cdpPage.waitForLoadState('networkidle');
   await expect(cdpPage).toHaveTitle(/ระบบจัดเก็บข้อมูลนักเรียนรายบุคคล Data Management Center/);
 
@@ -23,9 +24,9 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
     
     // Student existence check logic
     const data: { cid: string; status: boolean; processingTime?: number }[] = [];
-    const schoolCode = '36022006';
-    const educationYear = '2568'; // Updated for current year
-    const levelDtlCode = '14';
+    const schoolCode = process.env.SCHOOL_CODE || '36022006';
+    const educationYear = process.env.EDUCATION_YEAR || '2568';
+    const levelDtlCode = process.env.LEVEL_DTL_CODE || '14';
 
     console.log('\n📊 Student Existence Check Configuration:');
     console.log(`   School Code: ${schoolCode}`);
@@ -45,7 +46,7 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
         
         console.log(`${progress} ${percentage} Processing: ${cid}`);
         
-        const searchUrl = `https://portal.bopp-obec.info/obec68/studentprogram/add?schoolCode=${schoolCode}&studentNo=&cifNo=${cid}&cifType=&educationYear=${educationYear}&levelDtlCode=${levelDtlCode}&classroom=&firstNameTh=&lastNameTh=&action=search`;
+        const searchUrl = `${dmcPortalUrl}/studentprogram/add?schoolCode=${schoolCode}&studentNo=&cifNo=${cid}&cifType=&educationYear=${educationYear}&levelDtlCode=${levelDtlCode}&classroom=&firstNameTh=&lastNameTh=&action=search`;
         
         // Navigate with timeout
         await cdpPage.goto(searchUrl, { timeout: 30000, waitUntil: 'domcontentloaded' });
@@ -77,7 +78,7 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
         // Try to recover by going back to main page
         try {
           console.log('   🔄 Attempting to recover...');
-          await cdpPage.goto('https://portal.bopp-obec.info/obec68/', { timeout: 10000 });
+          await cdpPage.goto(`${dmcPortalUrl}/`, { timeout: 10000 });
           await cdpPage.waitForTimeout(2000);
           console.log('   ✅ Recovery successful');
         } catch (recoveryError) {

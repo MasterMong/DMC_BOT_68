@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/cdp-fixtures';
+import 'dotenv/config';
 
 /**
  * Test suite for DMC (Data Management Center) login functionality
@@ -6,7 +7,8 @@ import { test, expect } from './fixtures/cdp-fixtures';
  */
 test('CDP: Go to school info page', async ({ cdpPage }) => {
   // Navigate to the DMC portal
-  await cdpPage.goto('https://portal.bopp-obec.info/obec68/');
+  const dmcPortalUrl = process.env.DMC_PORTAL_URL || 'https://portal.bopp-obec.info/obec68';
+  await cdpPage.goto(`${dmcPortalUrl}/`);
   await cdpPage.waitForLoadState('networkidle');
   await expect(cdpPage).toHaveTitle(/ระบบจัดเก็บข้อมูลนักเรียนรายบุคคล Data Management Center/);
 

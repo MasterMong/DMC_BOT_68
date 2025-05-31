@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures/cdp-fixtures';
+import 'dotenv/config';
 
 /**
  * Test suite for DMC (Data Management Center) login functionality
@@ -6,7 +7,8 @@ import { test, expect } from './fixtures/cdp-fixtures';
  */
 test('CDP: Login DMC', async ({ cdpPage }) => {
   // Navigate to the DMC portal
-  await cdpPage.goto('https://portal.bopp-obec.info/obec68/');
+  const dmcPortalUrl = process.env.DMC_PORTAL_URL || 'https://portal.bopp-obec.info/obec68';
+  await cdpPage.goto(`${dmcPortalUrl}/`);
   await cdpPage.waitForLoadState('networkidle');
 
   // Check if user is already logged in and logout if necessary
@@ -30,7 +32,7 @@ test('CDP: Login DMC', async ({ cdpPage }) => {
   await expect(cdpPage.getByRole('heading', { name: 'คิวอาร์โค้ดนี้เป็นสิ่งยืนยันตนทางดิจิทัล ออกให้โดย' })).toBeVisible();
 
   // Wait for successful authentication and redirect to landing page
-  await cdpPage.waitForURL('https://portal.bopp-obec.info/obec68/auth/landing');
+  await cdpPage.waitForURL(`${dmcPortalUrl}/auth/landing`);
   await cdpPage.waitForLoadState('networkidle');
   
   // Verify user selection page is displayed
