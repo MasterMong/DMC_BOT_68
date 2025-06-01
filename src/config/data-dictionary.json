@@ -18,18 +18,27 @@
       "example": "ภูเขียว",
       "columnIndex": 1
     },
-    "studentId": {
-      "thaiName": "เลขประจำตัวนักเรียน",
-      "englishName": "Student ID",
+    "studentCid": {
+      "thaiName": "เลขประจำตัวประชาชน",
+      "englishName": "National ID",
       "type": "string",
       "required": true,
-      "description": "National ID number of the student (13 digits)",
+      "description": "National identification number (13 digits)",
       "example": "1368400145149",
       "columnIndex": 2,
       "validation": {
         "pattern": "^[0-9]{13}$",
-        "message": "Student ID must be 13 digits"
+        "message": "National ID must be 13 digits"
       }
+    },
+    "studentId": {
+      "thaiName": "เลขประจำตัวนักเรียน",
+      "englishName": "Student Number",
+      "type": "string",
+      "required": true,
+      "description": "School-specific student number",
+      "example": "39086",
+      "columnIndex": 5
     },
     "grade": {
       "thaiName": "ชั้น",
