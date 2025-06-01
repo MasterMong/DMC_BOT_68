@@ -28,22 +28,23 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
     const csvFilePath = path.join(__dirname, '../data/', csvFileName);
     
     // Load student data from CSV
-    let cids: string[] = [];
+    let studentCids: string[] = [];
     try {
-      cids = csvHandler.getStudentIds(csvFilePath);
-      console.log(`📁 Loaded ${cids.length} student IDs from CSV file: ${csvFileName}`);
+      const studentRecords = csvHandler.loadStudentData(csvFilePath);
+      studentCids = studentRecords.map(student => student.studentCid).filter(cid => cid.trim() !== '');
+      console.log(`📁 Loaded ${studentCids.length} student IDs from CSV file: ${csvFileName}`);
     } catch (error) {
       console.error('❌ Error loading CSV file:', error.message);
       return;
     }
     
-    if (cids.length === 0) {
+    if (studentCids.length === 0) {
       console.log('⚠️  No student IDs found in CSV file');
       return;
     }
 
     // Student existence check logic
-    const data: { cid: string; status: boolean; processingTime?: number }[] = [];
+    const data: { studentCid: string; status: boolean; processingTime?: number }[] = [];
     const schoolCode = process.env.SCHOOL_CODE || '36022006';
     const educationYear = process.env.EDUCATION_YEAR || '2568';
     const levelDtlCode = process.env.LEVEL_DTL_CODE || '14';
@@ -52,21 +53,21 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
     console.log(`   School Code: ${schoolCode}`);
     console.log(`   Education Year: ${educationYear}`);
     console.log(`   Level Detail Code: ${levelDtlCode}`);
-    console.log(`\n🚀 Starting check for ${cids.length} students...\n`);
+    console.log(`\n🚀 Starting check for ${studentCids.length} students...\n`);
 
     const startTime = Date.now();
 
-    for (let i = 0; i < cids.length; i++) {
-      const cid = cids[i];
+    for (let i = 0; i < studentCids.length; i++) {
+      const studentCid = studentCids[i];
       const itemStartTime = Date.now();
       
       try {
-        const progress = `[${(i + 1).toString().padStart(cids.length.toString().length, ' ')}/${cids.length}]`;
-        const percentage = `(${((i + 1) / cids.length * 100).toFixed(1)}%)`;
+        const progress = `[${(i + 1).toString().padStart(studentCids.length.toString().length, ' ')}/${studentCids.length}]`;
+        const percentage = `(${((i + 1) / studentCids.length * 100).toFixed(1)}%)`;
         
-        console.log(`${progress} ${percentage} Processing: ${cid}`);
+        console.log(`${progress} ${percentage} Processing: ${studentCid}`);
         
-        const searchUrl = `${dmcPortalUrl}/studentprogram/add?schoolCode=${schoolCode}&studentNo=&cifNo=${cid}&cifType=&educationYear=${educationYear}&levelDtlCode=${levelDtlCode}&classroom=&firstNameTh=&lastNameTh=&action=search`;
+        const searchUrl = `${dmcPortalUrl}/studentprogram/add?schoolCode=${schoolCode}&studentNo=&cifNo=${studentCid}&cifType=&educationYear=${educationYear}&levelDtlCode=${levelDtlCode}&classroom=&firstNameTh=&lastNameTh=&action=search`;
         
         // Navigate with timeout
         await cdpPage.goto(searchUrl, { timeout: 30000, waitUntil: 'domcontentloaded' });
@@ -78,22 +79,22 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
         const processingTime = Date.now() - itemStartTime;
         
         if (!found) {
-          data.push({ cid, status: false, processingTime });
-          console.log(`   ❌ ${cid} - Not found! (${processingTime}ms)`);
+          data.push({ studentCid, status: false, processingTime });
+          console.log(`   ❌ ${studentCid} - Not found! (${processingTime}ms)`);
         } else {
-          data.push({ cid, status: true, processingTime });
-          console.log(`   ✅ ${cid} - Found! (${processingTime}ms)`);
+          data.push({ studentCid, status: true, processingTime });
+          console.log(`   ✅ ${studentCid} - Found! (${processingTime}ms)`);
         }
 
         // Add delay between requests to avoid overwhelming the server
-        if (i < cids.length - 1) {
+        if (i < studentCids.length - 1) {
           await cdpPage.waitForTimeout(1000); // 1 second delay
         }
 
       } catch (error) {
         const processingTime = Date.now() - itemStartTime;
-        console.error(`   ⚠️  Error checking CID ${cid}: ${error.message} (${processingTime}ms)`);
-        data.push({ cid, status: false, processingTime });
+        console.error(`   ⚠️  Error checking studentCid ${studentCid}: ${error.message} (${processingTime}ms)`);
+        data.push({ studentCid, status: false, processingTime });
         
         // Try to recover by going back to main page
         try {
@@ -102,7 +103,7 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
           await cdpPage.waitForTimeout(2000);
           console.log('   ✅ Recovery successful');
         } catch (recoveryError) {
-          console.error('   ❌ Failed to recover, continuing with next CID');
+          console.error('   ❌ Failed to recover, continuing with next studentCid');
         }
       }
     }
@@ -110,8 +111,8 @@ test('CDP: Check student existence in DMC system', async ({ cdpPage }) => {
     const totalTime = Date.now() - startTime;
 
     // Convert data to CSV string
-    const csvHeader = 'CID,Status,ProcessingTime(ms)\n';
-    const csvRows = data.map(row => `${row.cid},${row.status},${row.processingTime || 0}`).join('\n');
+    const csvHeader = 'StudentCid,Status,ProcessingTime(ms)\n';
+    const csvRows = data.map(row => `${row.studentCid},${row.status},${row.processingTime || 0}`).join('\n');
     const csvContent = csvHeader + csvRows;
 
     // Ensure output directory exists
