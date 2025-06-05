@@ -353,13 +353,23 @@
       "example": "ไม่เป็นสมาชิกยุวกาชาด",
       "columnIndex": 37,
       "allowedValues": ["เป็นสมาชิกยุวกาชาด", "ไม่เป็นสมาชิกยุวกาชาด", "-"]
+    },
+    "swimmingSkills": {
+      "thaiName": "ทักษะการว่ายน้ำ",
+      "englishName": "Swimming Skills",
+      "type": "string",
+      "required": false,
+      "description": "Student's swimming ability",
+      "example": "True",
+      "columnIndex": 38,
+      "allowedValues": ["True", "False", "-"]
     }
   },
   "metadata": {
     "version": "1.0",
     "lastUpdated": "2024-01-01",
     "description": "Data dictionary for student information CSV files",
-    "totalColumns": 38,
+    "totalColumns": 39,
     "encoding": "UTF-8",
     "delimiter": ",",
     "dateFormat": "DD/MM/YYYY (Thai Buddhist Era)",

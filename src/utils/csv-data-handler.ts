@@ -40,6 +40,7 @@ export interface StudentRecord {
   unresolved: string;
   scoutId: string;
   redcrossyouthId: string;
+  swimmingSkills: string;
 }
 
 export interface DataDictionary {
@@ -50,6 +51,11 @@ export interface DataDictionary {
     required: boolean;
     description: string;
     example?: string;
+    validation?: {
+      pattern: string;
+      message: string;
+    };
+    allowedValues?: string[];
   };
 }
 
@@ -153,7 +159,8 @@ export class CsvDataHandler {
         disadvantaged: values[34] || '',
         unresolved: values[35] || '',
         scoutId: values[36] || '',
-        redcrossyouthId: values[37] || ''
+        redcrossyouthId: values[37] || '',
+        swimmingSkills: values[38] || ''
       };
     } catch (error) {
       console.error('Error mapping row to student:', error);
