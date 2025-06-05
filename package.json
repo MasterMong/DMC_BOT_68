@@ -9,6 +9,7 @@
     "test:check-students-by-cid": "npx playwright test dmc-check-stu-by-cid.spec.ts",
     "test:check-students-by-id": "npx playwright test dmc-check-stu-by-id.spec.ts",
     "test:set-scout": "npx playwright test dmc-set-scout.spec.ts",
+    "test:set-swiming": "npx playwright test dmc-set-swiming.spec.ts",
     "test:login": "npx playwright test dmc-login.spec.ts",
     "test:school-info": "npx playwright test dmc-school-info.spec.ts",
     "test:change-classroom": "npx playwright test dmc-change-classroom.spec.ts"
