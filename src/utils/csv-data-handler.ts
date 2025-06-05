@@ -38,6 +38,8 @@ export interface StudentRecord {
   motherOccupation: string;
   disadvantaged: string;
   unresolved: string;
+  scoutId: string;
+  redcrossyouthId: string;
 }
 
 export interface DataDictionary {
@@ -149,7 +151,9 @@ export class CsvDataHandler {
         motherLastName: values[32] || '',
         motherOccupation: values[33] || '',
         disadvantaged: values[34] || '',
-        unresolved: values[35] || ''
+        unresolved: values[35] || '',
+        scoutId: values[36] || '',
+        redcrossyouthId: values[37] || ''
       };
     } catch (error) {
       console.error('Error mapping row to student:', error);

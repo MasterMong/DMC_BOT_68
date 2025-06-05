@@ -333,13 +333,33 @@
       "description": "Unresolved status according to regulation 3.1.8",
       "example": "-",
       "columnIndex": 35
+    },
+    "scoutId": {
+      "thaiName": "เป็นลูกเสือ/เนตรนารี",
+      "englishName": "Scout/Girl Guide",
+      "type": "string",
+      "required": false,
+      "description": "Student participation in scout or girl guide activities",
+      "example": "ลูกเสือ/เนตรนารี",
+      "columnIndex": 36,
+      "allowedValues": ["ลูกเสือ/เนตรนารี", "เหล่าอากาศ", "เหล่าสมุทร", "ไม่เป็นลูกเสือ/เนตรนารี", "-"]
+    },
+    "redcrossyouthId": {
+      "thaiName": "เป็นยุวกาชาด",
+      "englishName": "Youth Red Cross",
+      "type": "string",
+      "required": false,
+      "description": "Student participation in youth red cross activities",
+      "example": "ไม่เป็นสมาชิกยุวกาชาด",
+      "columnIndex": 37,
+      "allowedValues": ["เป็นสมาชิกยุวกาชาด", "ไม่เป็นสมาชิกยุวกาชาด", "-"]
     }
   },
   "metadata": {
     "version": "1.0",
     "lastUpdated": "2024-01-01",
     "description": "Data dictionary for student information CSV files",
-    "totalColumns": 36,
+    "totalColumns": 38,
     "encoding": "UTF-8",
     "delimiter": ",",
     "dateFormat": "DD/MM/YYYY (Thai Buddhist Era)",
