@@ -7,7 +7,7 @@ export interface StudentRecord {
   studentCid: string;
   grade: string;
   room: string;
-  studentNumber: string;
+  studentId: string;
   gender: string;
   titlePrefix: string;
   firstName: string;
@@ -127,7 +127,7 @@ export class CsvDataHandler {
         studentCid: values[2] || '',
         grade: values[3] || '',
         room: values[4] || '',
-        studentNumber: values[5] || '',
+        studentId: values[5] || '',
         gender: values[6] || '',
         titlePrefix: values[7] || '',
         firstName: values[8] || '',
@@ -170,7 +170,7 @@ export class CsvDataHandler {
 
   public getStudentIds(csvFilePath: string): string[] {
     const students = this.loadStudentData(csvFilePath);
-    return students.map(student => student.studentCid).filter(id => id.trim() !== '');
+    return students.map(student => student.studentId).filter(id => id.trim() !== '');
   }
 
   public filterStudentsByGrade(students: StudentRecord[], grade: string): StudentRecord[] {
@@ -194,7 +194,7 @@ export class CsvDataHandler {
       errors.push('National ID must be 13 digits');
     }
     
-    if (!student.studentNumber || student.studentNumber.trim() === '') {
+    if (!student.studentId || student.studentId.trim() === '') {
       errors.push('Student number is required');
     }
     

@@ -91,10 +91,10 @@ test('CDP: Update scout and red cross data from CSV', async ({ cdpPage }) => {
         // Validate student data
         const validation = csvHandler.validateStudentRecord(student);
         if (!validation.isValid) {
-          console.log(`${progress} ${percentage} ⚠️ Skipping ${student.studentNumber} - ${student.firstName} ${student.lastName} - validation errors:`, validation.errors);
+          console.log(`${progress} ${percentage} ⚠️ Skipping ${student.studentId} - ${student.firstName} ${student.lastName} - validation errors:`, validation.errors);
           
           results.push({
-            studentId: student.studentNumber,
+            studentId: student.studentId,
             studentName: `${student.firstName} ${student.lastName}`,
             status: 'skipped',
             scoutUpdate: 'N/A',
@@ -111,12 +111,12 @@ test('CDP: Update scout and red cross data from CSV', async ({ cdpPage }) => {
         const scoutValue = scoutMapping[student.scoutId] || '';
         const redCrossValue = redCrossMapping[student.redcrossyouthId] || '';
         
-        console.log(`${progress} ${percentage} 🔄 Processing: ${student.studentNumber} - ${student.firstName} ${student.lastName}`);
+        console.log(`${progress} ${percentage} 🔄 Processing: ${student.studentId} - ${student.firstName} ${student.lastName}`);
         console.log(`  Scout: "${student.scoutId}" -> ${scoutValue || 'skip'}`);
         console.log(`  Red Cross: "${student.redcrossyouthId}" -> ${redCrossValue || 'skip'}`);
         
         // Navigate to student edit page using URL pattern
-        const studentUrl = `${dmcPortalUrl}/student/${student.studentNumber}:${schoolCode}/edit`;
+        const studentUrl = `${dmcPortalUrl}/student/${student.studentId}:${schoolCode}/edit`;
         
         try {
           await cdpPage.goto(studentUrl, { timeout: 30000, waitUntil: 'domcontentloaded' });
@@ -158,7 +158,7 @@ test('CDP: Update scout and red cross data from CSV', async ({ cdpPage }) => {
               console.log(`  💾 Changes saved successfully`);
               
               results.push({
-                studentId: student.studentNumber,
+                studentId: student.studentId,
                 studentName: `${student.firstName} ${student.lastName}`,
                 status: 'success',
                 scoutUpdate: scoutUpdated ? 'updated' : 'no change',
@@ -174,7 +174,7 @@ test('CDP: Update scout and red cross data from CSV', async ({ cdpPage }) => {
             console.log(`  ⚠️ No changes needed, skipping save`);
             
             results.push({
-              studentId: student.studentNumber,
+              studentId: student.studentId,
               studentName: `${student.firstName} ${student.lastName}`,
               status: 'no_changes',
               scoutUpdate: 'no change needed',
@@ -184,7 +184,7 @@ test('CDP: Update scout and red cross data from CSV', async ({ cdpPage }) => {
           }
           
         } catch (error) {
-          console.error(`  ❌ Error updating ${student.studentNumber} - ${student.firstName} ${student.lastName}: ${error.message}`);
+          console.error(`  ❌ Error updating ${student.studentId} - ${student.firstName} ${student.lastName}: ${error.message}`);
           
           // Recovery attempt using established pattern
           try {
@@ -197,7 +197,7 @@ test('CDP: Update scout and red cross data from CSV', async ({ cdpPage }) => {
           }
           
           results.push({
-            studentId: student.studentNumber,
+            studentId: student.studentId,
             studentName: `${student.firstName} ${student.lastName}`,
             status: 'error',
             scoutUpdate: 'failed',
@@ -215,10 +215,10 @@ test('CDP: Update scout and red cross data from CSV', async ({ cdpPage }) => {
         }
         
       } catch (error) {
-        console.error(`${progress} ${percentage} ❌ Error processing ${student.studentNumber} - ${student.firstName} ${student.lastName}: ${error.message}`);
+        console.error(`${progress} ${percentage} ❌ Error processing ${student.studentId} - ${student.firstName} ${student.lastName}: ${error.message}`);
         
         results.push({
-          studentId: student.studentNumber,
+          studentId: student.studentId,
           studentName: `${student.firstName} ${student.lastName}`,
           status: 'error',
           scoutUpdate: 'failed',

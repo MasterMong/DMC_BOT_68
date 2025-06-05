@@ -159,12 +159,12 @@ try {
 ```typescript
 // Extract specific fields
 const studentCids = studentRecords.map(student => student.studentCid).filter(cid => cid.trim() !== '');
-const studentIds = studentRecords.map(student => student.studentNumber).filter(id => id.trim() !== '');
+const studentIds = studentRecords.map(student => student.studentId).filter(id => id.trim() !== '');
 
 // Create custom data structure
 const students = studentRecords.map(student => ({
   cid: student.studentCid,
-  id: student.studentNumber,
+  id: student.studentId,
   room: student.room,
   firstName: student.firstName,
   lastName: student.lastName
@@ -308,6 +308,28 @@ results.push({
 // Add delays between requests
 if (i < items.length - 1) {
   await cdpPage.waitForTimeout(1000); // 1 second delay
+}
+```
+
+### 5. Form Element Interaction
+
+```typescript
+// Check element existence before interaction
+const radioButton = cdpPage.locator('#elementId');
+if (await radioButton.isVisible({ timeout: 5000 })) {
+  await radioButton.check();
+  console.log('✅ Radio button checked');
+} else {
+  console.log('⚠️  Radio button not found');
+}
+
+// Safe button clicking with timeout
+const saveButton = cdpPage.getByRole('button', { name: 'บันทึก' });
+if (await saveButton.isVisible({ timeout: 5000 })) {
+  await saveButton.click();
+  await cdpPage.waitForTimeout(2000); // Wait for action to complete
+} else {
+  console.log('⚠️  Save button not available');
 }
 ```
 

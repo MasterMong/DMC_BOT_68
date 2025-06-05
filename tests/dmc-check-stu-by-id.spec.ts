@@ -31,7 +31,7 @@ test('CDP: Check student existence by Student ID in DMC system', async ({ cdpPag
     let studentIds: string[] = [];
     try {
       const studentRecords = csvHandler.loadStudentData(csvFilePath);
-      studentIds = studentRecords.map(student => student.studentNumber).filter(id => id.trim() !== '');
+      studentIds = studentRecords.map(student => student.studentId).filter(id => id.trim() !== '');
       console.log(`📁 Loaded ${studentIds.length} student IDs from CSV file: ${csvFileName}`);
     } catch (error) {
       console.error('❌ Error loading CSV file:', error.message);
