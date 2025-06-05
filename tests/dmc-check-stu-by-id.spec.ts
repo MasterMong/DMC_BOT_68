@@ -9,8 +9,8 @@ import * as path from 'path';
  * This test verifies if students exist in the system by their Student ID
  */
 test('CDP: Check student existence by Student ID in DMC system', async ({ cdpPage }) => {
-  // Set longer timeout for this test
-  test.setTimeout(300000); // 5 minutes
+  // Remove this line to use config timeout
+  // test.setTimeout(300000); // 5 minutes
 
   // Navigate to the DMC portal
   const dmcPortalUrl = process.env.DMC_PORTAL_URL || 'https://portal.bopp-obec.info/obec68';

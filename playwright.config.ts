@@ -23,6 +23,9 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+  /* Timeout configurations */
+  timeout: 1800000, // 30 minutes for individual tests
+  globalTimeout: 3600000, // 60 minutes for entire test suite
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -30,6 +33,12 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    /* Action timeout */
+    actionTimeout: 300000, // 5 minutes for individual actions
+    /* Navigation timeout */
+    navigationTimeout: 300000, // 5 minutes for page loads
+    /* Expect timeout */
+    expect: { timeout: 300000 }, // 5 minutes for assertions
   },
 
   /* Configure projects for major browsers */
@@ -37,7 +46,13 @@ export default defineConfig({
     {
       name: 'chrome-cdp',
       testMatch: '**/cdp-*.spec.ts',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        /* Much longer timeout for CDP tests */
+        actionTimeout: 600000, // 10 minutes
+        navigationTimeout: 600000, // 10 minutes
+        expect: { timeout: 600000 }, // 10 minutes for assertions
+      },
     },
     {
       name: 'chromium',
