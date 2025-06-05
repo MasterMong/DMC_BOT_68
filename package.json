@@ -5,8 +5,10 @@
   "scripts": {
     "build": "tsc",
     "test": "npx playwright test",
+    "test:debug": "npx playwright test dmc-template.spec.ts --debug",
     "test:check-students-by-cid": "npx playwright test dmc-check-stu-by-cid.spec.ts",
     "test:check-students-by-id": "npx playwright test dmc-check-stu-by-id.spec.ts",
+    "test:set-scout": "npx playwright test dmc-set-scout.spec.ts",
     "test:login": "npx playwright test dmc-login.spec.ts",
     "test:school-info": "npx playwright test dmc-school-info.spec.ts",
     "test:change-classroom": "npx playwright test dmc-change-classroom.spec.ts"
