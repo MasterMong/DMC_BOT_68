@@ -9,7 +9,7 @@ import 'dotenv/config';
  * Updates student scout/red cross information based on CSV data
  */
 test('CDP: Update scout and red cross data from CSV', async ({ cdpPage }) => {
-  test.setTimeout(600000); // 10 minutes for update tests
+  // test.setTimeout(600000); // 10 minutes for update tests
   
   // Environment configuration
   const dmcPortalUrl = process.env.DMC_PORTAL_URL || 'https://portal.bopp-obec.info/obec68';
