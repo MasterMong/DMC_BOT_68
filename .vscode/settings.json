@@ -1,0 +1,17 @@
+{
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/node_modules/**": true,
+        "**/~/**": true,
+        "**/test-results/**": true,
+        "**/playwright-report/**": true,
+    },
+    "search.exclude": {
+        "**/node_modules": true
+    },
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/~/**": true,
+        "**/test-results/**": true,
+    }
+}
