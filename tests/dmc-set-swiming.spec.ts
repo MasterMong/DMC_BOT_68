@@ -9,7 +9,7 @@ import * as path from 'path';
  * This test loads student data from CSV and updates swimming skills based on the data
  */
 test('CDP: Update student swimming skills', async ({ cdpPage }) => {
-  test.setTimeout(600000); // 10 minutes
+  // test.setTimeout(600000); // 10 minutes
 
   const dmcPortalUrl = process.env.DMC_PORTAL_URL || 'https://portal.bopp-obec.info/obec68';
   const schoolCode = process.env.SCHOOL_CODE || '36022006';
