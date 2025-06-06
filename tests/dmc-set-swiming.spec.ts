@@ -75,25 +75,39 @@ test('CDP: Update student swimming skills', async ({ cdpPage }) => {
           let success = false;
 
           try {
-            if (swimmingValue === '1' || swimmingValue === 'True' || swimmingValue === 'true') {
-              // Check if swimming skills "can swim" radio button exists
-              const canSwimRadio = cdpPage.locator('#swimmableFlag1');
-              if (await canSwimRadio.isVisible({ timeout: 5000 })) {
-                await canSwimRadio.check();
-                success = true;
-                console.log(`🏊 Set swimming to TRUE for ${student.studentId}`);
+            if (swimmingValue === '1' || swimmingValue === 'True' || swimmingValue === 'true' || swimmingValue === 'TRUE') {
+              // Check if swimming skills checkbox exists
+              const swimmingCheckbox = cdpPage.locator('#swimmableFlag1');
+              if (await swimmingCheckbox.isVisible({ timeout: 5000 })) {
+                // Check current state before clicking
+                const isCurrentlyChecked = await swimmingCheckbox.isChecked();
+                if (!isCurrentlyChecked) {
+                  await swimmingCheckbox.check();
+                  success = true;
+                  console.log(`🏊 Set swimming to TRUE for ${student.studentId}`);
+                } else {
+                  success = true;
+                  console.log(`✓ Swimming already set to TRUE for ${student.studentId}`);
+                }
               } else {
-                console.log(`⚠️  Swimming TRUE radio button not found for ${student.studentId}`);
+                console.log(`⚠️  Swimming checkbox not found for ${student.studentId}`);
               }
-            } else if (swimmingValue === '0' || swimmingValue === 'False' || swimmingValue === 'false') {
-              // Check if swimming skills "cannot swim" radio button exists
-              const cannotSwimRadio = cdpPage.locator('#swimmableFlag0');
-              if (await cannotSwimRadio.isVisible({ timeout: 5000 })) {
-                await cannotSwimRadio.check();
-                success = true;
-                console.log(`🚫 Set swimming to FALSE for ${student.studentId}`);
+            } else if (swimmingValue === '0' || swimmingValue === 'False' || swimmingValue === 'false' || swimmingValue === 'FALSE') {
+              // Check if swimming skills checkbox exists
+              const swimmingCheckbox = cdpPage.locator('#swimmableFlag1');
+              if (await swimmingCheckbox.isVisible({ timeout: 5000 })) {
+                // Check current state before clicking
+                const isCurrentlyChecked = await swimmingCheckbox.isChecked();
+                if (isCurrentlyChecked) {
+                  await swimmingCheckbox.uncheck();
+                  success = true;
+                  console.log(`🚫 Set swimming to FALSE for ${student.studentId}`);
+                } else {
+                  success = true;
+                  console.log(`✓ Swimming already set to FALSE for ${student.studentId}`);
+                }
               } else {
-                console.log(`⚠️  Swimming FALSE radio button not found for ${student.studentId}`);
+                console.log(`⚠️  Swimming checkbox not found for ${student.studentId}`);
               }
             } else {
               console.log(`⚠️  Unknown swimming value: ${swimmingValue} for ${student.studentId}`);
